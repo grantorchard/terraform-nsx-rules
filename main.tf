@@ -15,8 +15,19 @@ resource "nsxt_policy_service" "this" {
   }
 }
 
-resource "nsxt_policy_group" "this" {
-  display_name = var.display_name
+resource "nsxt_policy_group" "destinations" {
+  display_name = "destination-${var.display_name}"
+  description  = var.description
+
+  criteria {
+    ipaddress_expression {
+      ip_addresses = var.destinations
+    }
+  }
+}
+
+resource "nsxt_policy_group" "sources" {
+  display_name = "source-${var.display_name}"
   description  = var.description
 
   criteria {
@@ -42,8 +53,11 @@ resource "nsxt_policy_gateway_policy" "this" {
 
 	rule {
 		display_name = var.display_name
+		source_groups = [
+			nsxt_policy_group.sources.path
+		]
 		destination_groups = [
-			nsxt_policy_group.this.path
+			nsxt_policy_group.destinations.path
 		]
 		services = [
 			nsxt_policy_service.this.path

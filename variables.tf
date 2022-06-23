@@ -14,6 +14,9 @@ variable "destination_ports" {
 variable "destinations" {
 	type = list(string)
 }
+variable "sources" {
+	type = list(string)
+}
 variable "action" {
 	type = string
 }
