@@ -32,7 +32,7 @@ resource "nsxt_policy_group" "sources" {
 
   criteria {
     ipaddress_expression {
-      ip_addresses = var.destinations
+      ip_addresses = var.sources
     }
   }
 }
